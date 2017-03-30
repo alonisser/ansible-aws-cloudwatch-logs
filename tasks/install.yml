@@ -5,6 +5,7 @@
   register: ec2_region
 
 - name: Configure /tmp/awslogs.conf
+  sudo: yes
   template:
     dest: /tmp/awslogs.conf
     group: root
@@ -13,6 +14,7 @@
     src: awslogs.conf.j2
 
 - name: Download the awslogs-agent-setup.py script
+  sudo: yes
   get_url:
     dest: /tmp/awslogs-agent-setup.py
     group: root
@@ -21,4 +23,5 @@
     url: https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
 
 - name: Install the AWS CloudWatch Logs daemon
+  sudo: yes
   shell: python /tmp/awslogs-agent-setup.py -n -r {{ ec2_region.stdout }} -c /tmp/awslogs.conf
