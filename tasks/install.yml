@@ -5,20 +5,16 @@
   register: ec2_region
 
 - name: Configure /tmp/awslogs.conf
-  sudo: yes
+#  sudo: yes
   template:
     dest: /tmp/awslogs.conf
-    group: root
     mode: 0600
-    owner: root
     src: awslogs.conf.j2
 
 - name: Download the awslogs-agent-setup.py script
-  sudo: yes
+#  sudo: yes
   get_url:
     dest: /tmp/awslogs-agent-setup.py
-    group: root
-    owner: root
     mode: 0600
     url: https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
 

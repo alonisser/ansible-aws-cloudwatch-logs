@@ -1,12 +1,10 @@
 ---
 - name: Remove /tmp/awslogs.conf
-  sudo: yes
   file:
     path: /tmp/awslogs.conf
     state: absent
 
 - name: Remove /tmp/awslogs-agent-setup.py
-  sudo: yes
   file:
     path: /tmp/awslogs-agent-setup.py
     state: absent
