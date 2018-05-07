@@ -5,25 +5,25 @@
   register: ec2_region
 
 - name: Configure /tmp/awslogs.conf
-#  sudo: yes
+#  become: yes
   template:
     dest: /tmp/awslogs.conf
     mode: 0600
     src: awslogs.conf.j2
 
 - name: Download the awslogs-agent-setup.py script
-#  sudo: yes
+#  become: yes
   get_url:
     dest: /tmp/awslogs-agent-setup.py
     mode: 0600
     url: https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
 
 - name: Install the AWS CloudWatch Logs daemon
-  sudo: yes
+  become: yes
   shell: python /tmp/awslogs-agent-setup.py -n -r {{ ec2_region.stdout }} -c /tmp/awslogs.conf
 
 - name: Copy systemd unit file
-  sudo: yes
+  become: yes
   copy:
     src=awslogs.service
     dest=/lib/systemd/system/awslogs.service
@@ -36,10 +36,10 @@
 
 - name: Enable the service
   shell: "systemctl enable awslogs.service"
-  sudo: yes
+  become: yes
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
 
 
 - name: Start the service
-  sudo: yes
+  become: yes
   service: name=awslogs state=started
